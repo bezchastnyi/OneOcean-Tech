@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Item {\n  constructor(id, purchase, price, done) {\n    this.id = id;\n    this.purchase = purchase;\n    this.price = price;\n    this.done = done;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

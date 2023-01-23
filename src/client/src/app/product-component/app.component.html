@@ -1,0 +1,59 @@
+<div id="main">
+    <h1 id="title">Список продуктов ({{items.length}})</h1>
+    <input id="add-button" type="button" value="Добавить" class="btn btn-primary" (click)="addItem()" />
+</div>
+<br /><br /><br /><br />
+
+<div *ngIf="items.length > 0">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Продукт</td>
+                <td>Цена</td>
+                <td>Куплено</td>
+                <td></td>
+                <td [ngClass]="status ? 'label label-success': 'label label-danger'">{{statusMessage}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item }">
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+
+    <ng-template #readOnlyTemplate let-item>
+        <td>{{item.purchase}}</td>
+        <td>{{item.price}}</td>
+        <td>
+            <input type="button" [value]="item.done ? '✅ Куплено': '❌ Не куплено'" class="btn btn-info" (click)="item.done=!item.done; saveCurrentItem(item)" />
+        </td>
+        <td>
+            <input type="button" value="Изменить" class="btn btn-default" (click)="editItem(item)" />
+        </td>
+        <td>
+            <input type="button" value="Удалить" (click)="deleteItem(item)" class="btn btn-danger" />
+        </td>
+    </ng-template>
+
+    <ng-template #editTemplate>
+        <td>
+            <input type="text" [(ngModel)]="editedItem!.purchase" class="form-control" />
+        </td>
+        <td>
+            <input type="number" [(ngModel)]="editedItem!.price" class="form-control" />
+        </td>
+        <td>
+            <input type="checkbox" [(ngModel)]="editedItem!.done" readonly disabled class="form-control" />
+        </td>
+        <td>
+            <input type="button" value="Сохранить" (click)="saveItem()" class="btn btn-success" />
+        </td>
+        <td>
+            <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+        </td>
+    </ng-template>
+</div>
+
+<h1 *ngIf="items.length == 0" style="color: red">Проблемы с сервером или список пуст!</h1>

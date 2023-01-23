@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A2F9FA7-014B-47B7-BED8-0D2A2CEAF7EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VesselNavigationAPI", "server\src\VesselNavigationAPI\VesselNavigationAPI.csproj", "{ED7D1D0D-D526-43F4-95F0-610CA6CC1AAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0AD68C06-80D6-43C5-B22A-3254245B4D55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VesselNavigationAPI.Tests", "server\test\VesselNavigationAPI.Tests\VesselNavigationAPI.Tests.csproj", "{041BB436-3E59-43AC-A9EB-CFCD00C17CB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18ECED55-DC5E-4FA8-B91A-FCAF322B84CC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED7D1D0D-D526-43F4-95F0-610CA6CC1AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED7D1D0D-D526-43F4-95F0-610CA6CC1AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041BB436-3E59-43AC-A9EB-CFCD00C17CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041BB436-3E59-43AC-A9EB-CFCD00C17CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED7D1D0D-D526-43F4-95F0-610CA6CC1AAD} = {9A2F9FA7-014B-47B7-BED8-0D2A2CEAF7EE}
+		{041BB436-3E59-43AC-A9EB-CFCD00C17CB6} = {0AD68C06-80D6-43C5-B22A-3254245B4D55}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C950030-2F3A-424E-B43C-8581C3183045}
+	EndGlobalSection
+EndGlobal
