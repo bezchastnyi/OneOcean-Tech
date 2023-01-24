@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using VesselNavigationAPI.Constants;
+using VesselNavigationAPI.Models;
 using VesselNavigationAPI.Models.Helpers;
 
 namespace VesselNavigationAPI.Controllers
@@ -77,9 +78,13 @@ namespace VesselNavigationAPI.Controllers
             }
 
             var healthCheck = new HealthCheck();
-            healthCheck.Databases.Add(new DataBase(CustomNames.VesselNavigationAPIDatabase, CustomNames.PostgreSql, this._configuration.GetConnectionString("PostgresVersion"), status));
+            healthCheck.Databases.Add(new DataBase(
+                CustomNames.VesselNavigationApiDatabase,
+                CustomNames.PostgreSql,
+                this._configuration.GetConnectionString("PostgresVersion"),
+                status));
 
-            this._logger.LogInformation($"{CustomNames.VesselNavigationAPIDatabase} status: {status}");
+            this._logger.LogInformation($"{CustomNames.VesselNavigationApiDatabase} status: {status}");
             return this.Json(healthCheck);
         }
     }

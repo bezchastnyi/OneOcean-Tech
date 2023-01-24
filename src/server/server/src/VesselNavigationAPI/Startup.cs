@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -66,7 +67,7 @@ namespace VesselNavigationAPI
 
             var pgConnectionString = this.Configuration.GetConnectionString("PostgresConnection");
             var pgVersionString = this.Configuration.GetConnectionString("PostgresVersion");
-            services.AddDbServices<NoAuthDbContext>(pgConnectionString, pgVersionString);
+            services.AddDbServices<VesselNavigationDbContext>(pgConnectionString, pgVersionString);
             services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddApiVersioning(o =>
@@ -84,6 +85,18 @@ namespace VesselNavigationAPI
                 services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
                     .AddSwaggerGen();
             }
+
+            // If using Kestrel:
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            // If using IIS:
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         /// <summary>

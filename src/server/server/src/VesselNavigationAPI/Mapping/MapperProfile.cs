@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
+using VesselNavigationAPI.Mapping.Converters;
+using VesselNavigationAPI.Models.Db;
+using VesselNavigationAPI.Models.Dto;
 
 namespace VesselNavigationAPI.Mapping
 {
@@ -12,7 +16,7 @@ namespace VesselNavigationAPI.Mapping
         /// </summary>
         public MapperProfile()
         {
-            // this.CreateMap<AudienceKhPI, Audience>().ConvertUsing<AudienceConverter>();
+            this.CreateMap<VesselDto, (Vessel, IEnumerable<VesselPosition>)>().ConvertUsing<VesselConverter>();
         }
     }
 }

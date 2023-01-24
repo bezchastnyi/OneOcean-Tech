@@ -8,7 +8,7 @@
         /// <summary>
         /// VesselNavigationAPI DB.
         /// </summary>
-        public const string VesselNavigationAPIDatabase = "VesselNavigationAPI";
+        public const string VesselNavigationApiDatabase = "VesselNavigationAPI";
 
         /// <summary>
         /// Db system.
