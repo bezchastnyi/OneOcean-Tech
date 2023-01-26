@@ -10,7 +10,7 @@ using VesselNavigationAPI.DB;
 namespace VesselNavigationAPI.Migrations
 {
     [DbContext(typeof(VesselNavigationDbContext))]
-    [Migration("20230124230602_VesselNavigationAPI_Migration")]
+    [Migration("20230125095735_VesselNavigationAPI_Migration")]
     partial class VesselNavigationAPI_Migration
     {
         /// <inheritdoc />
@@ -56,11 +56,11 @@ namespace VesselNavigationAPI.Migrations
                     b.Property<Guid>("VesselId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("X")
-                        .HasColumnType("integer");
+                    b.Property<double>("X")
+                        .HasColumnType("double precision");
 
-                    b.Property<int>("Y")
-                        .HasColumnType("integer");
+                    b.Property<double>("Y")
+                        .HasColumnType("double precision");
 
                     b.Property<uint>("xmin")
                         .IsConcurrencyToken()

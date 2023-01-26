@@ -25,13 +25,13 @@ namespace VesselNavigationAPI.Models.Db
         /// Gets the x coordinate.
         /// </summary>
         /// <value>X.</value>
-        public int X { get; init; }
+        public double X { get; init; }
 
         /// <summary>
         /// Gets the y coordinate.
         /// </summary>
         /// <value>Y.</value>
-        public int Y { get; init; }
+        public double Y { get; init; }
 
         /// <summary>
         /// Gets the TimeStamp.

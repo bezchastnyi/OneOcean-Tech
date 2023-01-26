@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using VesselNavigationAPI.Constants;
-using VesselNavigationAPI.Models;
 using VesselNavigationAPI.Models.Helpers;
 
 namespace VesselNavigationAPI.Controllers

@@ -5,10 +5,12 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using VesselNavigationAPI.Attributes;
 using VesselNavigationAPI.DB;
+using VesselNavigationAPI.Interfaces;
 using VesselNavigationAPI.Models.Db;
 using VesselNavigationAPI.Models.Dto;
 
@@ -25,6 +27,7 @@ namespace VesselNavigationAPI.V1.Controllers
     {
         private readonly ILogger<RoutesStorageApiController> _logger;
         private readonly IMapper _mapper;
+        private readonly IValidationService _validationService;
         private readonly VesselNavigationDbContext _dbContext;
 
         /// <summary>
@@ -32,12 +35,17 @@ namespace VesselNavigationAPI.V1.Controllers
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="mapper">mapper.</param>
+        /// <param name="validationService">validationService.</param>
         /// <param name="dbContext">dbContext.</param>
         public RoutesStorageApiController(
-            ILogger<RoutesStorageApiController> logger, IMapper mapper, VesselNavigationDbContext dbContext)
+            ILogger<RoutesStorageApiController> logger,
+            IMapper mapper,
+            IValidationService validationService,
+            VesselNavigationDbContext dbContext)
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this._validationService = validationService ?? throw new ArgumentNullException(nameof(validationService));
             this._dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
@@ -55,7 +63,7 @@ namespace VesselNavigationAPI.V1.Controllers
         {
             try
             {
-                return new JsonResult(this._dbContext.Vessel);
+                return new JsonResult(this._dbContext.Vessel.AsNoTracking());
             }
             catch (Exception ex)
             {
@@ -77,7 +85,8 @@ namespace VesselNavigationAPI.V1.Controllers
         {
             try
             {
-                return new JsonResult(this._dbContext.Position.Where(x => x.VesselId == vesselId));
+                return new JsonResult(this._dbContext.Position
+                    .Where(x => x.VesselId == vesselId).AsNoTracking());
             }
             catch (Exception ex)
             {
@@ -98,7 +107,7 @@ namespace VesselNavigationAPI.V1.Controllers
         {
             try
             {
-                return new JsonResult(this._dbContext.Position);
+                return new JsonResult(this._dbContext.Position.AsNoTracking());
             }
             catch (Exception ex)
             {
@@ -125,12 +134,34 @@ namespace VesselNavigationAPI.V1.Controllers
             {
                 using var stream = new StreamReader(this.HttpContext.Request.Body);
                 var vesselsData = JsonConvert.DeserializeObject<VesselsDataDto>(stream.ReadToEnd());
+                if (vesselsData == null || !vesselsData.Vessels.Any())
+                {
+                    this._logger.LogWarning("Vessels collection is empty");
+                    return new OkResult();
+                }
 
-                var list = this._mapper.Map<List<(Vessel, IEnumerable<VesselPosition>)>>(vesselsData.Vessels);
+                var vessels = vesselsData.Vessels;
+                foreach (var vessel in vessels)
+                {
+                    var result = this._validationService.ValidateVesselData(vessel);
+                }
+
+                var list = this._mapper.Map<List<(Vessel, IEnumerable<VesselPosition>)>>(vessels);
                 if (list != null)
                 {
-                    this._dbContext.Vessel.AddRange(list.Select(x => x.Item1));
-                    this._dbContext.Position.AddRange(list.SelectMany(x => x.Item2));
+                    foreach (var (vessel, vesselPosition) in list)
+                    {
+                        try
+                        {
+                            this._dbContext.Vessel.Add(vessel);
+                            this._dbContext.Position.AddRange(vesselPosition);
+                        }
+                        catch (Exception ex)
+                        {
+                            // TODO add explicit data explanation
+                            this._logger.LogError($"{nameof(this.VesselsDataFeeding)}: failed to add data to the table. Error message: '{ex.Message}'");
+                        }
+                    }
                 }
 
                 this._dbContext.SaveChanges();

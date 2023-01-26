@@ -1,0 +1,36 @@
+<div class="form-group">
+  <label>Vessels</label>
+  <select class="form-control" [(ngModel)]="currentVessel">
+    <option *ngFor="let vessel of vesselCollection" [ngValue]="vessel">{{vessel.name}}</option>
+  </select>
+</div>
+
+<button (click)="onTitleClick()">CLICK</button>
+<h1 class="">Speed: {{averageSpeed}}</h1>
+<h1 class="">Total DIstance: {{totalDistance}}</h1>
+<igx-radial-gauge height="400px" width="400px"
+    value={{averageSpeed}}
+    interval="5"
+    minimumValue="0"
+    maximumValue="60">
+    <igx-radial-gauge-range startValue="0"
+                            endValue="20"
+                            brush="red">
+    </igx-radial-gauge-range>
+    <igx-radial-gauge-range startValue="20"
+                            endValue="40"
+                            brush="yellow">
+    </igx-radial-gauge-range>
+    <igx-radial-gauge-range startValue="40"
+                            endValue="60"
+                            brush="green">
+    </igx-radial-gauge-range>
+</igx-radial-gauge>
+
+<h1 *ngIf="vesselCollection.length == 0" style="color: red">
+  Problems with VesselNavigationAPI or Vessel Collection is empty
+</h1>
+
+<div id="divChart">
+  <canvas id="myChart"></canvas>
+</div>

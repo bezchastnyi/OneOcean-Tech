@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using VesselNavigationAPI.Constants;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -28,12 +29,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                // throw new ArgumentException(string.Format(BackendConstants.NullOrEmptyErrorMessage, nameof(connectionString)));
+                throw new ArgumentException(string.Format(LogConstants.NullOrEmptyErrorMessage, nameof(connectionString)));
             }
 
             if (string.IsNullOrEmpty(pgVersionString))
             {
-                // throw new ArgumentException(string.Format(BackendConstants.NullOrEmptyErrorMessage, nameof(pgVersionString)));
+                throw new ArgumentException(string.Format(LogConstants.NullOrEmptyErrorMessage, nameof(pgVersionString)));
             }
 
             var pgVersion = new Version(pgVersionString);

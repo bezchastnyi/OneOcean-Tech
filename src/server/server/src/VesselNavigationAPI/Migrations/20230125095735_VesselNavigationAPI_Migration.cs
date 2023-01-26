@@ -28,8 +28,8 @@ namespace VesselNavigationAPI.Migrations
                 {
                     VesselPositionId = table.Column<Guid>(type: "uuid", nullable: false),
                     VesselId = table.Column<Guid>(type: "uuid", nullable: false),
-                    X = table.Column<int>(type: "integer", nullable: false),
-                    Y = table.Column<int>(type: "integer", nullable: false),
+                    X = table.Column<double>(type: "double precision", nullable: false),
+                    Y = table.Column<double>(type: "double precision", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                 },

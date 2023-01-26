@@ -16,12 +16,12 @@ namespace VesselNavigationAPI.DB
             : base(options) { }
 
         /// <summary>
-        /// Gets or sets the audience.
+        /// Gets or sets the Vessel data table.
         /// </summary>
         public virtual DbSet<Vessel> Vessel { get; set; }
 
         /// <summary>
-        /// Gets or sets the audience.
+        /// Gets or sets the Position data table.
         /// </summary>
         public virtual DbSet<VesselPosition> Position { get; set; }
 
@@ -39,6 +39,7 @@ namespace VesselNavigationAPI.DB
             modelBuilder.Entity<VesselPosition>(entity =>
             {
                 entity.HasKey(e => e.VesselPositionId);
+
                 entity.Property(e => e.X);
                 entity.Property(e => e.Y);
                 entity.Property(e => e.TimeStamp);
@@ -46,6 +47,7 @@ namespace VesselNavigationAPI.DB
                 entity.HasOne<Vessel>()
                     .WithMany()
                     .HasForeignKey(e => e.VesselId);
+                entity.HasIndex(e => e.VesselId);
 
                 entity.UseXminAsConcurrencyToken();
             });

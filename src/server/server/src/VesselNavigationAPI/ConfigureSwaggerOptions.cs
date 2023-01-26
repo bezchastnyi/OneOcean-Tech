@@ -49,7 +49,7 @@ namespace VesselNavigationAPI
                 Title = $" {assembly?.GetName().Name}: " +
                         $"v{version}",
                 Version = version,
-                Description = " VesselNavigationAPI: providing common information for not auth mode",
+                Description = " VesselNavigationAPI: providing vessel's routes info and calculation metrics",
                 Contact = new OpenApiContact
                 {
                     Name = " VesselNavigation ",

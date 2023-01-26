@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using VesselNavigationAPI.DB;
+using VesselNavigationAPI.Interfaces;
 using VesselNavigationAPI.Mapping;
+using VesselNavigationAPI.Services;
 
 namespace VesselNavigationAPI
 {
@@ -69,6 +71,9 @@ namespace VesselNavigationAPI
             var pgVersionString = this.Configuration.GetConnectionString("PostgresVersion");
             services.AddDbServices<VesselNavigationDbContext>(pgConnectionString, pgVersionString);
             services.AddAutoMapper(typeof(MapperProfile));
+            services.AddTransient<IValidationService, ValidationService>();
+
+            services.AddCors();
 
             services.AddApiVersioning(o =>
             {
@@ -142,6 +147,13 @@ namespace VesselNavigationAPI
                                 descriptor => $"{descriptor.Name} {descriptor.Url}"))).ConfigureAwait(false)));
                 });
             }
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            });
 
             app.UseEndpoints(builder =>
             {

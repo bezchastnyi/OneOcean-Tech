@@ -7,7 +7,7 @@ using Serilog;
 namespace VesselNavigationAPI
 {
     /// <summary>
-    /// The server GET.
+    /// The Vessel Navigation API server.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public static class Program
@@ -26,25 +26,20 @@ namespace VesselNavigationAPI
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <returns>Configured web host builder.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-            var url = $"http://0.0.0.0:{port}";
-
-            return Host.CreateDefaultBuilder(args)
-                    .UseSerilog(
-                        (context, configuration) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseSerilog(
+                    (context, configuration) =>
                     {
                         configuration.ReadFrom.Configuration(context.Configuration);
                     }, true)
-                    .ConfigureWebHostDefaults(webBuilder =>
-                    {
-                        webBuilder.ConfigureKestrel(serverOptions =>
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureKestrel(serverOptions =>
                         {
                             serverOptions.AddServerHeader = false;
                         })
-                        .UseStartup<Startup>().UseUrls(url);
-                    });
-        }
+                        .UseStartup<Startup>();
+                });
     }
 }

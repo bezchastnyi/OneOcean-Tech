@@ -15,14 +15,14 @@ namespace VesselNavigationAPI.Models.Dto
         /// </summary>
         /// <value>X.</value>
         [JsonProperty("x")]
-        public int X { get; set; }
+        public double X { get; set; }
 
         /// <summary>
         /// Gets or sets the y coordinate.
         /// </summary>
         /// <value>Y.</value>
         [JsonProperty("y")]
-        public int Y { get; set; }
+        public double Y { get; set; }
 
         /// <summary>
         /// Gets or sets the TimeStamp.
